@@ -5,6 +5,12 @@
       "name": "Первый герой",
       "description": "Первый герой в рейтинге!",
       "element": "fire"
+    },
+    {
+      "id": 2,
+      "name": "Неизвестный герой",
+      "description": "Скрывающийся в тени",
+      "element": "wind"
     }
   ],
   "filters": [

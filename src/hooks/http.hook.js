@@ -4,18 +4,17 @@ import axios from "axios";
 export const useHttp = () => {
     // const [process, setProcess] = useState('waiting');
 
-    const request = useCallback(async (method, url) => {
+    const request = useCallback(async (url, config) => {
 
         // setProcess('loading');
 
         try {
             const response = await axios({
-                method,
                 url,
+                ...config
             });
-
-            if (response.status !== 200) {
-                throw new Error(`Could not fetch ${url}, status: ${response.status}`);
+            if (response.status > 400) {
+                throw new Error(`Could not fetch ${url}, status: ${response.statusText}`);
             }
 
             const data = await response.data;

@@ -16,9 +16,17 @@ export const heroesFetchingError = () => {
         type: 'HEROES_FETCHING_ERROR'
     }
 }
+
 export const deleteHero = (filteredHeroes) => {
     return {
         type: 'DELETE_HERO',
         payload: filteredHeroes
+    }
+}
+
+export const addHero = (formData) => {
+    return {
+        type: 'ADD_HERO',
+        payload: formData
     }
 }
