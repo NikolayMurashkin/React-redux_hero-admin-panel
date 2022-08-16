@@ -34,6 +34,11 @@ const reducer = (state = initialState, action) => {
                 heroes: action.payload,
                 heroesLoadingStatus: 'idle'
             }
+        case 'FILTERS_FETCHED':
+            return {
+                ...state,
+                filters: action.payload
+            }
         default:
             return state
     }

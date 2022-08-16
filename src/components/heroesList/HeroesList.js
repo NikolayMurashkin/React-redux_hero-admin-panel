@@ -16,12 +16,9 @@ const HeroesList = () => {
     const dispatch = useDispatch();
     const {request} = useHttp();
 
-    const config = {
-        method: "GET",
-    }
-
     useEffect(() => {
-        request("http://localhost:3001/heroes", config)
+        dispatch(heroesFetching());
+        request("http://localhost:3001/heroes", {method: "GET"})
             .then(data => dispatch(heroesFetched(data)))
             .catch(() => dispatch(heroesFetchingError()))
 

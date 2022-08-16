@@ -1,9 +1,8 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {addHero, heroesFetchingError} from '../../actions';
+import {addHero, filtersFetched, heroesFetchingError} from '../../actions';
 import {useHttp} from '../../hooks/http.hook';
 import {v4 as uuidv4} from 'uuid';
-import {useState} from "react";
-
+import {useState, useEffect} from "react";
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -18,12 +17,18 @@ import {useState} from "react";
 const HeroesAddForm = () => {
     const [heroData, setHeroData] = useState({});
 
-    const {heroes} = useSelector(state => state);
+    const {heroes, filters} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
+    useEffect(() => {
+        request("http://localhost:3001/filters", {method: "GET"})
+            .then(data => dispatch(filtersFetched(data)))
+            .catch(() => dispatch(heroesFetchingError()))
+        // eslint-disable-next-line
+    }, []);
 
-    const onChange = (e) => {
+    const handleChange = (e) => {
         setHeroData(heroData => {
             return {
                 ...heroData,
@@ -32,36 +37,50 @@ const HeroesAddForm = () => {
         })
     }
 
-    const onSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
+
         const formData = {
             "id": uuidv4(),
             "name": heroData.name,
             "description": heroData.description,
             "element": heroData.element
         }
-        const newData = [...heroes, formData];
+
         const config = {
             method: "POST",
             data: {
                 ...formData
             }
         }
+
         request(`http://localhost:3001/heroes`, config)
-            .then((response) => {
-                console.log(response)
-                dispatch(addHero(newData))
-            })
+            .then(() => dispatch(addHero([...heroes, formData])))
             .catch(() => dispatch(heroesFetchingError()))
+
+        e.target.reset();
     }
 
+    const filterSelect = filters.map((filter, i) => {
+        switch (filter) {
+            case 'fire':
+                return <option key={i} value="fire">Огонь</option>
+            case 'water':
+                return <option key={i} value="water">Вода</option>
+            case 'wind':
+                return <option key={i} value="wind">Ветер</option>
+            case 'earth':
+                return <option key={i} value="earth">Земля</option>
+            default:
+                return filter
+        }
+    })
 
-    return (<form className="border p-4 shadow-lg rounded">
+    return (<form onSubmit={e => handleSubmit(e)} className="border p-4 shadow-lg rounded">
         <div className="mb-3">
             <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
             <input
-                onChange={e => onChange(e)}
-                value={heroData.name}
+                onChange={e => handleChange(e)}
                 required
                 type="text"
                 name="name"
@@ -73,8 +92,7 @@ const HeroesAddForm = () => {
         <div className="mb-3">
             <label htmlFor="description" className="form-label fs-4">Описание</label>
             <textarea
-                onChange={e => onChange(e)}
-                value={heroData.description}
+                onChange={e => handleChange(e)}
                 required
                 name="description"
                 className="form-control"
@@ -86,21 +104,17 @@ const HeroesAddForm = () => {
         <div className="mb-3">
             <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
             <select
-                onChange={e => onChange(e)}
-                value={heroData.element}
+                onChange={e => handleChange(e)}
                 required
                 className="form-select"
                 id="element"
                 name="element">
                 <option>Я владею элементом...</option>
-                <option value="fire">Огонь</option>
-                <option value="water">Вода</option>
-                <option value="wind">Ветер</option>
-                <option value="earth">Земля</option>
+                {filterSelect}
             </select>
         </div>
 
-        <button type="submit" onClick={e => onSubmit(e)} className="btn btn-primary">Создать
+        <button type="submit" className="btn btn-primary">Создать
         </button>
     </form>)
 }

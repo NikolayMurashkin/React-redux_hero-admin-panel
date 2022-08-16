@@ -30,3 +30,10 @@ export const addHero = (formData) => {
         payload: formData
     }
 }
+
+export const filtersFetched = (filters) => {
+    return {
+        type: 'FILTERS_FETCHED',
+        payload: filters
+    }
+}

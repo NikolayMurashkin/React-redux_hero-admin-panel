@@ -8,13 +8,9 @@ const HeroesListItem = ({name, description, element, id}) => {
     const dispatch = useDispatch();
     const {request} = useHttp();
 
-    const config = {
-        method: "DELETE",
-    }
-
     const deleteHeroId = () => {
         const filteredHeroes = heroes.filter(hero => hero.id !== id);
-        request(`http://localhost:3001/heroes/${id}`, config)
+        request(`http://localhost:3001/heroes/${id}`, {method: "DELETE"})
             .then(() => dispatch(deleteHero(filteredHeroes)))
             .catch(() => dispatch(heroesFetchingError()))
     }
@@ -51,7 +47,7 @@ const HeroesListItem = ({name, description, element, id}) => {
         </div>
         <span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
                 <button
-                    onClick={(e) => deleteHeroId(e)}
+                    onClick={deleteHeroId}
                     type="button"
                     className="btn-close btn-close"
                     aria-label="Close"></button>
