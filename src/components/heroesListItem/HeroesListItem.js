@@ -1,19 +1,4 @@
-import {useDispatch, useSelector} from 'react-redux';
-import {deleteHero, heroesFetchingError} from '../../actions';
-import {useHttp} from '../../hooks/http.hook';
-
-
-const HeroesListItem = ({name, description, element, id}) => {
-    const {heroes} = useSelector(state => state);
-    const dispatch = useDispatch();
-    const {request} = useHttp();
-
-    const deleteHeroId = () => {
-        const filteredHeroes = heroes.filter(hero => hero.id !== id);
-        request(`http://localhost:3001/heroes/${id}`, {method: "DELETE"})
-            .then(() => dispatch(deleteHero(filteredHeroes)))
-            .catch(() => dispatch(heroesFetchingError()))
-    }
+const HeroesListItem = ({name, description, element, onDelete}) => {
 
     let elementClassName;
 
@@ -34,25 +19,24 @@ const HeroesListItem = ({name, description, element, id}) => {
             elementClassName = 'bg-warning bg-gradient';
     }
 
-    return (<li
-        className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}>
-        <img src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg"
-             className="img-fluid w-25 d-inline"
-             alt="unknown hero"
-             style={{'objectFit': 'cover'}}/>
-        <div className="card-body">
+    return (
+        <li
+            className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}>
+            <img src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg"
+                 className="img-fluid w-25 d-inline"
+                 alt="unknown hero"
+                 style={{'objectFit': 'cover'}}/>
+            <div className="card-body">
 
-            <h3 className="card-title">{name}</h3>
-            <p className="card-text">{description}</p>
-        </div>
-        <span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
-                <button
-                    onClick={deleteHeroId}
-                    type="button"
-                    className="btn-close btn-close"
-                    aria-label="Close"></button>
+                <h3 className="card-title">{name}</h3>
+                <p className="card-text">{description}</p>
+            </div>
+            <span onClick={onDelete}
+                  className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
+                <button type="button" className="btn-close btn-close" aria-label="Close"></button>
             </span>
-    </li>)
+        </li>
+    )
 }
 
 export default HeroesListItem;
