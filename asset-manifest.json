@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/React-redux_hero-admin-panel/static/css/main.d9f554a9.css",
-    "main.js": "/React-redux_hero-admin-panel/static/js/main.9b6ab81a.js",
+    "main.js": "/React-redux_hero-admin-panel/static/js/main.fa9737b5.js",
     "static/media/hero_bg.jpg": "/React-redux_hero-admin-panel/static/media/hero_bg.0540b794b0424b67d780.jpg",
     "index.html": "/React-redux_hero-admin-panel/index.html",
     "main.d9f554a9.css.map": "/React-redux_hero-admin-panel/static/css/main.d9f554a9.css.map",
-    "main.9b6ab81a.js.map": "/React-redux_hero-admin-panel/static/js/main.9b6ab81a.js.map"
+    "main.fa9737b5.js.map": "/React-redux_hero-admin-panel/static/js/main.fa9737b5.js.map"
   },
   "entrypoints": [
     "static/css/main.d9f554a9.css",
-    "static/js/main.9b6ab81a.js"
+    "static/js/main.fa9737b5.js"
   ]
 }
