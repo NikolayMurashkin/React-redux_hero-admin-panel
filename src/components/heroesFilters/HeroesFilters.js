@@ -3,7 +3,7 @@ import {useHttp} from '../../hooks/http.hook';
 import {useEffect} from "react";
 import classNames from "classnames";
 
-import {filtersFetching, filtersFetched, filtersFetchingError, activeFilterChanged} from '../../actions';
+import {activeFilterChanged, fetchFilters} from '../../actions';
 import Spinner from '../spinner/Spinner';
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -18,10 +18,7 @@ const HeroesFilters = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(filtersFetching());
-        request("http://localhost:3001/filters", {method: "GET"})
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
+        dispatch(fetchFilters(request));
         // eslint-disable-next-line
     }, []);
 

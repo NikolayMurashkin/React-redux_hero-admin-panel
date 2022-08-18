@@ -1,10 +1,10 @@
 import {useHttp} from '../../hooks/http.hook';
-import {useCallback, useEffect, useRef} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {createSelector} from "reselect";
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
-import {heroesFetching, heroesFetched, heroesFetchingError, heroDeleted} from '../../actions';
+import {fetchHeroes, heroDeleted} from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -34,10 +34,7 @@ const HeroesList = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes", {method: "GET"})
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(fetchHeroes(request))
 
         // eslint-disable-next-line
     }, []);
@@ -45,7 +42,7 @@ const HeroesList = () => {
     const onDelete = useCallback((id) => {
         request(`http://localhost:3001/heroes/${id}`, {method: "DELETE"})
             .then(() => dispatch(heroDeleted(id)))
-            .catch(() => dispatch(heroesFetchingError()))
+            .catch((err) => console.log(err))
         // eslint-disable-next-line
     }, [request])
 
@@ -70,7 +67,7 @@ const HeroesList = () => {
             return (
                 <CSSTransition
                     key={id}
-                    timeout={500}
+                    timeout={300}
                     classNames="hero">
                     <HeroesListItem {...props} onDelete={() => onDelete(id)}/>
                 </CSSTransition>
