@@ -17,6 +17,12 @@
       "name": "Аквамен",
       "description": "Как из DC, но другой",
       "element": "water"
+    },
+    {
+      "id": "oaRC1QxIhRHJXMYBa9PCn",
+      "name": "Nikolay",
+      "description": "qweqe",
+      "element": "wind"
     }
   ],
   "filters": [

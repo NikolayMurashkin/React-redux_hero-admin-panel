@@ -3,7 +3,8 @@ import {useHttp} from '../../hooks/http.hook';
 import {useEffect} from "react";
 import classNames from "classnames";
 
-import {activeFilterChanged, fetchFilters} from '../../actions';
+import {fetchFilters} from '../../actions';
+import {activeFilterChanged} from "./filtersSlice";
 import Spinner from '../spinner/Spinner';
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных

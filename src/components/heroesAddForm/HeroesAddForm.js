@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {heroCreated, heroesFetchingError} from '../../actions';
+import {heroCreated, heroesFetchingError} from '../heroesList/heroesSlice';
 import {useHttp} from '../../hooks/http.hook';
-import {v4 as uuidv4} from 'uuid';
 import {useState} from "react";
+import {nanoid} from "@reduxjs/toolkit";
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -27,7 +27,7 @@ const HeroesAddForm = () => {
         e.preventDefault();
 
         const formData = {
-            id: uuidv4(),
+            id: nanoid(),
             name: heroName,
             description: heroDescription,
             element: heroElement
